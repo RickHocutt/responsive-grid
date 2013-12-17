@@ -1,0 +1,83 @@
+/* Responsive Grid System
+   Authored By - Rick Hocutt
+============================================== */
+@import "compass";
+
+// Define column variables
+$column: 12; //Number of columns
+$columnWidth: 100 / $column;
+$columnGutter: (100 - ($columnWidth * $column)) / ($column - 1);
+ 
+/*  Create Floated Columns */
+[class*="grid-"] {
+	@include box-sizing(border-box);
+	float: left;
+	display: block;
+	padding-left: 10px;
+	padding-right: 10px;
+	min-height: 1px;
+	position: relative;
+	width: 100%;
+}
+
+/* If the column spans the full width remove the paddings - all cases */
+.flush {padding-left: 0 !important; padding-right: 0 !important;}
+.flush-left {padding-left: 0 !important;}
+.flush-right {padding-right: 0 !important;}
+
+/* Columns */
+@for $i from 1 through $column {
+  .grid-#{$i} {
+    $colWidth: 1% * ($columnWidth * $i) + ($columnGutter *($i - 1));
+    width: $colWidth;
+  }
+}
+
+
+/* Push-Pull column left/right the same amount as corresponding column width */
+@for $i from 1 through $column {
+  .push-#{$i} {
+    $colWidth: 1% * ($columnWidth * $i) + ($columnGutter *($i - 1));
+    left: $colWidth;
+  }
+}
+
+/* Pull Columns Left */
+@for $i from 1 through $column {
+  .pull-#{$i} {
+    $colWidth: 1% * ($columnWidth * $i) + ($columnGutter *($i - 1));
+    left: -$colWidth;
+  }
+}
+
+/* For the occasional chance we need to offset something to the right */
+@for $i from 1 through $column {
+  .offset-#{$i} {
+    $colWidth: 1% * ($columnWidth * $i) + ($columnGutter *($i - 1));
+    margin-left: $colWidth;
+  }
+}
+
+.pull-right[class*="grid"] {float: right;}
+.pull-left[class*="grid"] {float: left;}
+
+/* Example Styles
+------------------------------------------------- */
+.show-grid { background: url('../images/common/grid-bg.png') left top;background-size: contain; }
+.show-grid [class*="grid-"] {
+	background-color: rgba(0,0,0,0.2);
+	border-radius: 3px 3px 3px 3px;
+	min-height: 40px;
+}
+.show-grid .show-bg {
+	background-color: #555;
+	color: #fff;
+	text-shadow: 1px 1px 0 #000;
+	line-height: 40px;
+	text-align: center;
+}
+.no-rgba .show-grid [class*="grid-"],
+.msie-lt9  .show-grid [class*="grid-"] { background-color: #777; }
+.show-grid .row-fluid:hover [class*="grid-"] { background: rgba(0,0,0,0.3); }
+.no-rgba .show-grid .row-fluid:hover,
+.msie-lt9 .show-grid .row-fluid:hover [class*="grid-"] { background: #333; }
